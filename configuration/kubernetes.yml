@@ -1,0 +1,32 @@
+---
+- hosts:
+    - controllers
+    - workers
+  roles:
+    - nodes
+  tags:
+    - nodes
+
+- hosts: controllers
+  roles:
+    - controllers
+  tags:
+    - controllers
+
+- hosts: controllers[0]
+  roles:
+    - master
+  tags:
+    - master
+
+- hosts: controllers[1:]
+  roles:
+    - non_masters
+  tags:
+    - non_masters
+
+- hosts: workers
+  roles:
+    - workers
+  tags:
+    - workers

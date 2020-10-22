@@ -1,0 +1,26 @@
+- name: Allow traffic
+  import_tasks: ufw.yml
+  become: true
+
+- name: Create token
+  shell: kubeadm token create --config /etc/kubeadm-init-config.yml
+  delegate_to: "{{ groups['controllers'][0] }}"
+  run_once: true
+  register: createtoken
+
+- name: Get CA cert hash
+  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* /sha256:/'
+  delegate_to: "{{ groups['controllers'][0] }}"
+  run_once: true
+  register: cacerthash
+
+- name: Create /etc/kubeadm-join-config.yml
+  template:
+    src: join-config.yml.j2
+    dest: /etc/kubeadm-join-config.yml
+  register: joinconfig
+
+- name: Join the control plane
+  command: kubeadm join --config /etc/kubeadm-join-config.yml
+  register: kubejoin
+- debug: var=kubejoin.stdout_lines

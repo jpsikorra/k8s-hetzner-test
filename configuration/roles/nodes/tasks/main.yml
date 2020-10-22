@@ -1,0 +1,12 @@
+---
+  - name: Configure networking
+    import_tasks: network.yml
+    become: true
+
+  - name: Install Docker
+    import_tasks: docker.yml
+    become: true
+
+  - name: Install kubeadm, kubelet and kubectl
+    import_tasks: kube.yml
+    become: true

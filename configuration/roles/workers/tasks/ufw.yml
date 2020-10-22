@@ -1,0 +1,21 @@
+- name: Allow kube control traffic
+  community.general.ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: tcp
+    interface: ens10
+    direction: in
+    src: 10.240.0.0/24
+  loop:
+    - '10250'
+    - 30000:32767
+
+- name: Allow flannel traffic between nodes
+  community.general.ufw:
+    rule: allow
+    port: '8472'
+    proto: udp
+    interface: ens10
+    direction: in
+    src: 10.240.0.0/24
+    dest: 10.240.0.0/24

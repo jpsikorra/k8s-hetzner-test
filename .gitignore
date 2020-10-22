@@ -1,0 +1,5 @@
+ssh.key*
+.terraform/
+terraform.tfstate*
+configuration/hosts
+configuration/group_vars/all

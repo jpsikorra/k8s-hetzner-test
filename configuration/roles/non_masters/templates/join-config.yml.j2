@@ -1,0 +1,16 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+nodeRegistration:
+  kubeletExtraArgs:
+    node-ip: {{ private_ip }}
+controlPlane:
+  localAPIEndpoint:
+    advertiseAddress: {{ private_ip }}
+    bindPort: 6443
+  certificateKey: {{ uploadcerts.stdout_lines | last }}
+discovery:
+  bootstrapToken:
+    token: {{ createtoken.stdout_lines | last }}
+    apiServerEndpoint: {{ controller_lb_ip }}:6443
+    caCertHashes:
+      - {{ cacerthash.stdout_lines | last }}

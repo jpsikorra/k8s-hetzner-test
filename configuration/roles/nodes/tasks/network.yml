@@ -1,0 +1,39 @@
+- name: Install ufw
+  apt:
+    pkg:
+      - ufw
+
+- name: UFW allow ssh traffic
+  community.general.ufw:
+    rule: allow
+    port: ssh
+    proto: tcp
+    interface: eth0
+    direction: in
+
+- name: UFW deny all other traffic
+  community.general.ufw:
+    policy: deny
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+
+- name: Add the br_netfilter module
+  community.general.modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Bridge iptables ip6
+  ansible.posix.sysctl:
+    name: net.bridge.bridge-nf-call-ip6tables
+    value: '1'
+    sysctl_file: /etc/sysctl.d/k8s.conf
+    reload: yes
+
+- name: Bridge iptables ip6
+  ansible.posix.sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    sysctl_file: /etc/sysctl.d/k8s.conf
+    reload: yes

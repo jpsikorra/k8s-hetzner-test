@@ -1,0 +1,9 @@
+[controllers]
+%{ for controller in controllers ~}
+${controller.name} ansible_host=${controller.ipv4_address} private_ip=${controller.private_ip}
+%{ endfor ~}
+
+[workers]
+%{ for worker in workers ~}
+${worker.name} ansible_host=${worker.ipv4_address} private_ip=${worker.private_ip}
+%{ endfor ~}

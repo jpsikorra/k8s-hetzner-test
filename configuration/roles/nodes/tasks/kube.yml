@@ -1,0 +1,25 @@
+- name: Install packages to allow apt to use a repository over HTTPS
+  apt:
+    pkg:
+      - apt-transport-https
+      - curl
+
+- name: Add Kubernetes official GPG key
+  apt_key:
+    id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: Set up the Kubernetes stable repository
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+
+- name: Install kubelet, kubeadm and kubectl package
+  apt:
+    pkg:
+      - kubelet
+      - kubeadm
+      - kubectl
+
+- name: Pull kubeadm images
+  command: kubeadm config images pull

@@ -1,0 +1,19 @@
+- name: Create /etc/kubeadm-init-config.yml
+  template:
+    src: init-config.yml.j2
+    dest: /etc/kubeadm-init-config.yml
+
+- name: Initialize kubernetes cluster
+  command: kubeadm init --config /etc/kubeadm-init-config.yml
+  register: kubeadminit
+- debug: var=kubeadminit.stdout_lines
+
+- name: Copy kube-flannel.yml to /etc/kube-flannel.yml
+  copy:
+    src: kube-flannel.yml
+    dest: /etc/kube-flannel.yml
+
+- name: Apply flannel to kubernetes
+  command: kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f /etc/kube-flannel.yml
+  register: flannelinit
+- debug: var=flannelinit.stdout_lines

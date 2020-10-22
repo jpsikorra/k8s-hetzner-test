@@ -1,0 +1,4 @@
+---
+controller_lb_ip: ${controller_lb.ip}
+ansible_ssh_common_args: -o IdentitiesOnly=yes -o StrictHostKeyChecking=no
+ansible_user: root
