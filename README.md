@@ -1,5 +1,5 @@
-# Run Kubernetes in the Hetzner Cloud (WIP)
-Creates a six node kubernetes cluster in a private network in the Hetzner cloud.
+# Run Kubernetes in the Hetzner Cloud
+Creates a six node kubernetes cluster in a private network in the Hetzner cloud for fun.
 
 Remember, some costs will occur when using the Hetzner Cloud.
 
