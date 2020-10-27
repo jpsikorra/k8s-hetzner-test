@@ -22,6 +22,7 @@ Go into the `configuration` dir.
 ## Testing and playing around
 SSH to the first controller (address in file `configuration/hosts`) and run
 - `kubectl --kubeconfig /etc/kubernetes/admin.conf get nodes`
+
 which should display your ready nodes.
 
 ## All good things must come to an end
